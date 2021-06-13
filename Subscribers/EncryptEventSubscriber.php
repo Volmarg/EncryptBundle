@@ -74,8 +74,10 @@ class EncryptEventSubscriber implements EventSubscriberInterface
     public function encrypt(EncryptEventInterface $event){
 
         $value = $event->getValue();
-
-        if($this->isDisabled === false) {
+        if(
+                $this->isDisabled === false
+            &&  self::ENCRYPTED_SUFFIX !== substr($value, -5)
+        ) {
             $value = $this->encryptor->encrypt($value);
         }
 
